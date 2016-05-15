@@ -17,15 +17,23 @@ import cdh
 from server import run_server
 from common import ConfigBuilder
 from common import create_env_props
-from common import CONFIG_FILES
+from settings import CONFIG_FILES
 
+from __init__ import __version__
 
-parser = optparse.OptionParser(usage="usage: %prog [options]")
-parser.add_option('--settings', type=str, help='the path to JSON file with settings')
-parser.add_option('--mapping', type=str, help='the path to JSON file with env properties mapping')
-parser.add_option('--output', type=str, help='the path to JSON file with env properties output')
+parser = optparse.OptionParser(usage="usage: %prog [options]", version=__version__)
+parser.add_option('-s', '--settings', type=str, help='the path to JSON file with settings')
+parser.add_option('-o', '--output', type=str, help='the path to JSON file with env properties output')
+
+optional_group = optparse.OptionGroup(parser, 'Optional arguments')
+optional_group.add_option('-m', '--mapping', type=str,
+    help='''the path to JSON file with env properties mapping.
+            By default will be used the mapping from the package,
+            depends on platform parameter in the settings file.''')
+parser.add_option_group(optional_group)
 
 opts, args = parser.parse_args()
+
 
 SETTINGS = dict()
 if opts.settings:
@@ -39,6 +47,14 @@ if opts.settings:
     except ValueError, err:
         print >> sys.stderr, "[ERROR] Incorrect settings format, %s, %s" % (opts.settings, err)
         sys.exit(1)
+
+# Hadoop platform
+
+if not SETTINGS.get(u'platform', None):
+
+    print >> sys.stderr, '[ERROR] Please specify a platform in the settings file'
+    sys.exit(1)
+
 
 MAPPING = dict()
 if opts.mapping:
@@ -59,13 +75,6 @@ ENV_PROPS = dict()
 if not opts.output:
     print >> sys.stderr, '[ERROR] Output file for environment properties does not specified, %s' % opts.output
     sys.exit()
-
-# Hadoop platform
-
-if not SETTINGS.get(u'platform', None):
-
-    print >> sys.stderr, '[ERROR] Please specify platform, %s' % opts.platform
-    sys.exit(1)
 
 # Hadoop config directory
 # default path: /etc for HDP platforms
