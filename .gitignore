@@ -63,3 +63,7 @@ target/
 
 # Ignore project specific binaries
 hadoop-env-config
+
+
+# temporary directories
+tmp/
