@@ -11,17 +11,42 @@ Supported platforms:
 ## How to use
 
 ```sh
-$ ./hadoop-env-config-0.1.0 --help
-Usage: hadoop-env-config-0.1.0 [options]
+$ ./hadoop-env-config --help
+Usage: hadoop-env-config [options]
 
 Options:
-  -h, --help           show this help message and exit
-  --settings=SETTINGS  the path to JSON file with settings
-  --mapping=MAPPING    the path to JSON file with env properties mapping
-  --output=OUTPUT      the path to JSON file with env properties output
+  --version             show program\'s version number and exit
+  -h, --help            show this help message and exit
+  -s SETTINGS, --settings=SETTINGS
+                        the path to JSON file with settings
+
+  Optional arguments:
+    -m MAPPING, --mapping=MAPPING
+                        the path to JSON file with env properties mapping.
+                        By default will be used the mapping from the package,
+                        depends on platform parameter in the settings file.
+    -o OUTPUT, --output=OUTPUT
+                        the path to JSON file with env properties output,
+                        default: stdout
+
 ```
 
 ## Configuration
+
+### Parameters
+
+Name                        | Env      | Description
+--------------------------- | -------- | --------------------
+platform                    | HDP/CDH  | Platform name: CDH46, CDH53, HDP22, ...
+config-dir                  | HDP/CDH  | The directory path to configuration files
+cdh-gateway-http-protocol   | CDH      | Protocol for connecting via Cloudera API: http, https
+cdh-gateway-hostname        | CDH      | Hostname for connecting to Cloudera API
+cdh-gateway-port            | CDH      | Port for Cloudera API
+cdh-gateway-username        | CDH      | Username
+cdh-gateway-password        | CDH      | Password
+cdh-cluster-name            | CDH      | Cloudera cluster name
+server                      | CDH/HDP  | Web server
+
 
 ### CDH4/5 settings file (example)
 
