@@ -86,10 +86,11 @@ class CDHConfig(object):
             print >> sys.stderr, '[INFO] getting config for service: %s' % service['name']
             self.service_config(service['name'])
 
+        self.prepare_oozie_config()
+
 
     def role(self, service_name):
 
-        import pprint
         URL = self.prepare_url('services/{service_name}/roles', service_name=service_name)
         resp = json.loads(sh.curl('-k', URL, silent=True).stdout)
         return resp['items']
@@ -102,3 +103,19 @@ class CDHConfig(object):
             if service['type'] == 'OOZIE':
                 _hosts.extend([s['hostRef']['hostId'] for s in self.role(service['name'])])
         return _hosts
+
+
+    def prepare_oozie_config(self):
+
+        oozieSiteXMLPath = os.path.join(self.conf_dir, 'oozie-conf/oozie-site.xml')
+        if not os.path.exists(oozieSiteXMLPath):
+            os.makedirs(os.path.join(self.conf_dir, 'oozie-conf'))
+
+        with open(oozieSiteXMLPath, 'w') as oozieSiteXML:
+            oozieSite='''<configuration>
+            <property>
+              <name>oozie.base.url</name>
+              <value>{oozieServerUrls}</value>
+            </property>
+            </configuration>'''
+            oozieSiteXML.write(oozieSite.format(oozieServerUrls=','.join(["http://%s:11000/oozie" % h for h in self.oozie_hosts()])))

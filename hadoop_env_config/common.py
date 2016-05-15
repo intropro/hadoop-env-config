@@ -7,15 +7,7 @@ import urlparse
 
 import xml.etree.ElementTree as ET
 
-CONFIG_FILES = {
-    'hdfs-site.xml': ['hadoop/conf/hdfs-site.xml', 'hadoop-conf/hdfs-site.xml'],
-    'core-site.xml': ['hadoop/conf/core-site.xml', 'hadoop-conf/core-site.xml'],
-    'hbase-site.xml': ['hbase/conf/hbase-site.xml', 'hbase-conf/hbase-site.xml'],
-    'hive-site.xml': ['hive/conf/hive-site.xml', 'hive-conf/hive-site.xml'],
-    'yarn-site.xml': ['hadoop/conf/yarn-site.xml', 'hadoop-conf/yarn-site.xml'],
-    'mapred-site.xml': ['hadoop/conf/mapred-site.xml', 'hadoop-conf/mapred-site.xml'],
-    'oozie-site.xml': ['oozie/conf/oozie-site.xml','oozie-conf/oozie-site.xml' ],
-}
+import settings
 
 class ConfigBuilder(object):
 
@@ -28,7 +20,7 @@ class ConfigBuilder(object):
         self.config_files = []
         self._config = dict()
 
-        for cfile, paths in CONFIG_FILES.items():
+        for cfile, paths in settings.CONFIG_FILES.items():
             for path in paths:
                 path = os.path.join(config_path, path)
                 if not os.path.exists(path):
