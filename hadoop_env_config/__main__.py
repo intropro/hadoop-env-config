@@ -70,5 +70,5 @@ if hadoop_env_config.settings.get('server', None):
 
     from server import run_server
 
-    address, port = SETTINGS.get('server', None).split(':')
+    address, port = hadoop_env_config.settings.get('server', None).split(':')
     run_server(address, port, hadoop_env_config)

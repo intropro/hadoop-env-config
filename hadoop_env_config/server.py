@@ -8,6 +8,8 @@ import socket
 import SocketServer
 import SimpleHTTPServer
 
+from settings import CONFIG_FILES
+
 from common import ConfigBuilder
 from common import create_env_props
 
@@ -94,14 +96,17 @@ HTML_PAGE='''
 </html>
 '''
 
-CONF_DIR = None
-CONFIG_FILES = None
-MAPPING = None
+# CONF_DIR = None
+# CONFIG_FILES = None
+# MAPPING = None
+#
+ENV_CONFIG=None
 
 class ConfigHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
 
         message = 'ConfigServer'
+        config_dir = ENV_CONFIG.settings['config-dir']
 
         if self.path == '/':
             message = HTML_PAGE.format(
@@ -115,20 +120,20 @@ class ConfigHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             )
         elif self.path.startswith('/conf/config.json'):
             _msg = []
-            for name, conf in ConfigBuilder(CONF_DIR).config.items():
+            for name, conf in ConfigBuilder(config_dir).config.items():
                 for k,v in conf.items():
                     _msg.append((name,k,v))
             # self.send_header("Content-Type", "application/json")
             message = json.dumps({'data': _msg})
         elif self.path == '/conf/environment.json':
-            message = json.dumps(create_env_props(CONF_DIR, MAPPING))
+            message = json.dumps(create_env_props(config_dir, ENV_CONFIG.mapping))
         elif self.path == '/conf/environment.properties':
-            message = '\n'.join("%s=%s" % (k,v) for k,v in create_env_props(CONF_DIR, MAPPING).items())
+            message = '\n'.join("%s=%s" % (k,v) for k,v in create_env_props(config_dir, ENV_CONFIG.mapping).items())
         elif self.path.startswith('/conf/'):
             conf_file = os.path.basename(self.path)
             try:
                 for f in CONFIG_FILES[conf_file]:
-                    path = os.path.join(CONF_DIR, f)
+                    path = os.path.join(config_dir, f)
                     if os.path.exists(path):
                         message = open(path).read()
                         break
@@ -142,13 +147,16 @@ class ConfigHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         self.wfile.write(message)
 
 
-def run_server(address, port, conf_dir, mapping, config_files):
+def run_server(address, port, env_config):
     ''' run server
     '''
-    global  CONF_DIR, MAPPING, CONFIG_FILES
-    CONF_DIR = conf_dir
-    MAPPING = mapping
-    CONFIG_FILES = config_files
+    global ENV_CONFIG
+    ENV_CONFIG = env_config
+
+    # global  CONF_DIR, MAPPING, CONFIG_FILES
+    # CONF_DIR = env_config.settings.get("config-dir")
+    # MAPPING = env_config.mapping
+    # CONFIG_FILES = env_config.
 
     httpd = SocketServer.TCPServer((address, int(port)), ConfigHandler)
     print "serving at %s:%s" % (address, port)
