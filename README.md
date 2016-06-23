@@ -14,8 +14,8 @@ CDH         | CDH 4.6, 4.7, 5.3
 
 ## Installation
 
-The installation process is simple as possible. You just need to download latest version
-from hadoop-env-config Releases page https://github.com/intropro/hadoop-env-config/releases
+The installation process is simple as possible. You just need to download latest version of self-contained
+binary package `hadoop-env-config` from Releases page https://github.com/intropro/hadoop-env-config/releases
 
 ## How to use
 
