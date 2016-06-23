@@ -4,8 +4,10 @@ The script for collecting Hadoop env parameters from different platforms (CDH, H
 
 Supported platforms:
 
- - HDP (Hortonworks): HDP2.2.8
- - Cloudera (CDH): CDH4.6, CDH4.7, CDH5.3
+Platform    | Versions
+------------| ------------------
+HDP         | HDP 2.2.8
+CDH         | CDH 4.6, 4.7, 5.3
 
 
 ## How to use
@@ -78,6 +80,26 @@ server                      | CDH/HDP  | Web server
     "server": "localhost:8080"
 }
 ```
+
+### Custom settings
+
+Time to time there are needed to add custom parameters to configuration files, like ssh credentials to Hadoop cluster.
+These parameters can be specified in the settings file, the section: custom-env-properties
+
+```json
+{
+    "platform": "HDP22",
+    "config-dir": "/etc",
+
+    "server": "localhost:8080",
+    "custom-env-properties": {
+        "sshPort": 22,
+        "sshUserName": "username",
+        "sshPassword": "password"
+    }
+}
+```
+
 
 ### Mapping file
 
