@@ -129,6 +129,7 @@ class ConfigHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             message = json.dumps(create_env_props(config_dir, ENV_CONFIG.mapping))
         elif self.path == '/conf/environment.properties':
             message = '\n'.join("%s=%s" % (k,v) for k,v in create_env_props(config_dir, ENV_CONFIG.mapping).items())
+            message += "\n"
         elif self.path.startswith('/conf/'):
             conf_file = os.path.basename(self.path)
             try:

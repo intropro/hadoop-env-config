@@ -63,7 +63,6 @@ except env_config.IncorrectMappingFile:
     sys.exit(1)
 
 
-
 # Hadoop web server
 
 if hadoop_env_config.settings.get('server', None):
