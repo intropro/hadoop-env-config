@@ -1,5 +1,7 @@
 # hadoop-env-config
 
+[![Build Status](https://travis-ci.org/intropro/hadoop-env-config.svg?branch=master)](https://travis-ci.org/intropro/hadoop-env-config)
+
 The script for collecting Hadoop env parameters from different platforms (CDH, HDP)
 
 Supported platforms:
@@ -9,6 +11,11 @@ Platform    | Versions
 HDP         | HDP 2.2.8
 CDH         | CDH 4.6, 4.7, 5.3
 
+
+## Installation
+
+The installation process is simple as possible. You just need to download latest version
+from hadoop-env-config Releases page https://github.com/intropro/hadoop-env-config/releases
 
 ## How to use
 
