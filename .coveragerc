@@ -1,0 +1,2 @@
+[run]
+omit=hadoop_env_config/packages/*
