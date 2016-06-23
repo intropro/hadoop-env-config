@@ -1,0 +1,15 @@
+language: python
+
+python:
+  - "2.6"
+  - "2.7"
+
+env:
+  - PYTHONDONTWRITEBYTECODE=1
+
+install:
+  - pip install ${PIP_OPTS} pytest
+  - pip install ${PIP_OPTS} pytest-cov
+  
+script:
+  - make test-all-with-coverage
