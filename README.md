@@ -130,7 +130,8 @@ Example for CDH4.x
         "hive.metastore.kerberos.principal": "hiveMetastorePrincipal"
     },
     "oozie-site": {
-        "oozie.base.url": "oozieServerUrl"
+        "oozie.base.url": "oozieServerUrl",
+        "oozie.base.url": "oozieServer"
     }
 }
 ```
@@ -155,7 +156,8 @@ Example for HDP2.2
         "hive.metastore.kerberos.principal": "hiveMetastorePrincipal"
     },
     "oozie-site": {
-        "oozie.base.url": "oozieServerUrl"
+        "oozie.base.url": "oozieServerUrl",
+        "oozie.base.url": "oozieServer"
     }
 }
 
