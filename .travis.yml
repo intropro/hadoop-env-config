@@ -10,6 +10,7 @@ env:
 install:
   - pip install ${PIP_OPTS} pytest
   - pip install ${PIP_OPTS} pytest-cov
-  
+
 script:
+  - pip install --editable .
   - make test-all-with-coverage
