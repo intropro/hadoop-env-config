@@ -67,3 +67,4 @@ hadoop-env-config
 
 # temporary directories
 tmp/
+.local-ci/
