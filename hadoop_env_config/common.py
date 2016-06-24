@@ -74,4 +74,7 @@ def create_env_props(conf_dir, mapping):
             props = dict([(v,get_prop(_config[site], k)) for k,v in mapping[site].items()])
             _env_props.update(props)
 
+    if 'oozieServer' in _env_props and _env_props['oozieServer']:
+        _env_props['oozieServer']=_env_props['oozieServer'].replace('/oozie','')
+
     return _env_props

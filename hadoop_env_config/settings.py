@@ -31,7 +31,8 @@ MAPPING_CDH4X = {
         "hive.metastore.kerberos.principal": "hiveMetastorePrincipal"
     },
     "oozie-site": {
-        "oozie.base.url": "oozieServerUrl"
+        "oozie.base.url": "oozieServerUrl",
+        "oozie.base.url": "oozieServer"
     }
 }
 
@@ -55,6 +56,7 @@ MAPPING_HDP2X = {
         "hive.metastore.kerberos.principal": "hiveMetastorePrincipal"
     },
     "oozie-site": {
-        "oozie.base.url": "oozieServerUrl"
+        "oozie.base.url": "oozieServerUrl",
+        "oozie.base.url": "oozieServer"
     }
 }
