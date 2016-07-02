@@ -52,9 +52,9 @@ class HadoopEnvConfig(object):
             self.mapping = self.get_json_content(mapping)
         else:
             if self.settings['platform'] in CDH4X_PLATFORMS:
-                result = settings_mod.MAPPING_CDH4X
+                self.mapping = settings_mod.MAPPING_CDH4X
             elif self.settings['platform'] in HDP2X_PLATFORMS:
-                result = settings_mod.MAPPING_HDP2X
+                self.mapping = settings_mod.MAPPING_HDP2X
 
         self.env = dict()
 
