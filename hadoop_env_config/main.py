@@ -41,10 +41,10 @@ def run():
 
     # Settings file error handling
 
-    except env_config.IncorrectSettingsFile:
+    except env_config.IncorrectJsonFormat:
         print >> sys.stderr, '[ERROR] Incorrect settings file: %s' % opts.settings
         sys.exit(1)
-    except env_config.EmptySettingsFile:
+    except env_config.UndefinedSettingsFile:
         print >> sys.stderr, '[ERROR] Settings file is empty: %s' % opts.settings
         sys.exit(1)
     except env_config.EmptyPlatformName:
