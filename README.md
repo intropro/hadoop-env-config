@@ -1,6 +1,7 @@
 # hadoop-env-config
 
 [![Build Status](https://travis-ci.org/intropro/hadoop-env-config.svg?branch=master)](https://travis-ci.org/intropro/hadoop-env-config)
+[![Coverage Status](https://coveralls.io/repos/intropro/hadoop-env-config/badge.svg)](https://coveralls.io/r/intropro/hadoop-env-config)
 
 The script for collecting Hadoop env parameters from different platforms (CDH, HDP)
 
