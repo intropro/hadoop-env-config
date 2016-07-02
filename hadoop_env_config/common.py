@@ -7,7 +7,7 @@ import urlparse
 
 import xml.etree.ElementTree as ET
 
-import settings
+import settings as settings_mod
 
 class ConfigBuilder(object):
 
@@ -20,11 +20,11 @@ class ConfigBuilder(object):
         self.config_files = []
         self._config = dict()
 
-        for cfile, paths in settings.CONFIG_FILES.items():
+        for cfile, paths in settings_mod.CONFIG_FILES.items():
             for path in paths:
                 path = os.path.join(config_path, path)
                 if not os.path.exists(path):
-                    print >> sys.stderr, "[WARNING] Config file does not exist, %s" % path
+                    # print >> sys.stderr, "[WARNING] Config file does not exist, %s" % path
                     continue
                 else:
                     self.config_files.append(path)
@@ -75,6 +75,8 @@ def create_env_props(conf_dir, mapping):
             _env_props.update(props)
 
     if 'oozieServer' in _env_props and _env_props['oozieServer']:
-        _env_props['oozieServer']=_env_props['oozieServer'].replace('/oozie','')
+        _env_props['oozieServer'] = urlparse.urljoin(_env_props['oozieServer'], '/')
+        if _env_props['oozieServer'][-1] == '/':
+            _env_props['oozieServer'] = _env_props['oozieServer'][:-1]
 
     return _env_props
