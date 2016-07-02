@@ -1,5 +1,5 @@
 import json
-import settings
+import settings as settings_mod
 
 import cdh
 from common import create_env_props
@@ -52,9 +52,9 @@ class HadoopEnvConfig(object):
             self.mapping = self.get_json_content(mapping)
         else:
             if self.settings['platform'] in CDH4X_PLATFORMS:
-                result = settings.MAPPING_CDH4X
+                result = settings_mod.MAPPING_CDH4X
             elif self.settings['platform'] in HDP2X_PLATFORMS:
-                result = settings.MAPPING_HDP2X
+                result = settings_mod.MAPPING_HDP2X
 
         self.env = dict()
 
