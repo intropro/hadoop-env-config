@@ -41,7 +41,8 @@ def test_env_config_incorrect_path_to_settings():
         conf = env_config.HadoopEnvConfig(os.path.join(get_settings_path(), 'shadow.settings'))
 
 
-# def test_env_config_prepare_settings(hdp_settings_path):
-#
-#     conf = env_config.HadoopEnvConfig(hdp_settings_path)
-#     assert 0
+def test_env_config_prepare_settings(hdp_settings_path):
+
+    conf = env_config.HadoopEnvConfig(hdp_settings_path)
+    print conf
+    assert 0
