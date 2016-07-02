@@ -11,7 +11,7 @@ class IncorrectSettingsFile(Exception):
 class IncorrectMappingFile(Exception):
     pass
 
-class EmptySettingsFile(Exception):
+class UndefinedSettingsFile(Exception):
     pass
 
 class EmptyMappingFile(Exception):
@@ -44,7 +44,7 @@ KNOWN_HADOOP_PLATFORMS = CDH_PLATFORMS + HDP2X_PLATFORMS
 
 class HadoopEnvConfig(object):
 
-    def __init__(self, settings, mapping):
+    def __init__(self, settings, mapping=None):
 
         self.settings = self.prepare_settings(settings)
         self.mapping = self.prepare_mapping(mapping)
@@ -64,7 +64,7 @@ class HadoopEnvConfig(object):
             except ValueError, err:
                 raise IncorrectSettingsFile(err)
         else:
-            raise EmptySettingsFile(settings)
+            raise UndefinedSettingsFile(settings)
 
         if not result.get('platform', None):
             raise EmptyPlatformName(result.get('platform', None))
