@@ -21,6 +21,8 @@ $(PROJECT_NAME_BIN): clean
 		rm bin/$(PROJECT_NAME_BIN).zip && \
 		chmod a+x bin/$(PROJECT_NAME_BIN)
 
+run-local-ci:
+	@ local-ci -r $(shell pwd) -s $(shell pwd)/.local-ci.yml
 
 test-all:
 	@ py.test
