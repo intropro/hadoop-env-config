@@ -98,14 +98,16 @@ class HadoopEnvConfig(object):
 
     def parse(self):
 
+        result = {}
+
         if self.settings['platform'] in CDH_PLATFORMS:
-
-            return self._cdh_config_processing()
-
+            result = self._cdh_config_processing()
         elif self.settings['platform'] in HDP2X_PLATFORMS:
+            result = self._hdp_config_processing()
 
-            return self._hdp_config_processing()
-
+        if 'custom-env-properties' in self.settings:
+            result.update(self.settings['custom-env-properties'])
+        return result
 
     def _cdh_config_processing(self):
         ''' parse Cloudera Hadoop configuration files
