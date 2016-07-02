@@ -1,0 +1,10 @@
+{
+    "platform": "HDP22",
+    "config-dir": "/etc",
+
+    "custom-env-properties": {
+        "sshPort": 22,
+        "sshUserName": "username",
+        "sshPassword": "password"
+    }
+}
