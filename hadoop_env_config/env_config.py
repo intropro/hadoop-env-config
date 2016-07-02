@@ -5,10 +5,7 @@ import cdh
 from common import create_env_props
 
 
-class IncorrectSettingsFile(Exception):
-    pass
-
-class IncorrectMappingFile(Exception):
+class IncorrectJsonFormat(Exception):
     pass
 
 class UndefinedSettingsFile(Exception):
@@ -46,66 +43,57 @@ class HadoopEnvConfig(object):
 
     def __init__(self, settings, mapping=None):
 
-        self.settings = self.prepare_settings(settings)
-        self.mapping = self.prepare_mapping(mapping)
-        self.env = dict()
-
-
-    def prepare_settings(self, settings):
-        ''' prepare settings based on parameter from command line
-        '''
-        result = dict()
         if settings:
-            try:
-                with open(settings) as _settings:
-                    result = json.load(_settings)
-            except IOError, err:
-                raise IncorrectSettingsFile(err)
-            except ValueError, err:
-                raise IncorrectSettingsFile(err)
+            self.settings = self.prepare_settings(self.get_json_content(settings))
         else:
             raise UndefinedSettingsFile(settings)
 
-        if not result.get('platform', None):
-            raise EmptyPlatformName(result.get('platform', None))
-
-        if result['platform'] not in KNOWN_HADOOP_PLATFORMS:
-            raise UnknownPlatformName(result['platform'])
-
-        # Hadoop config directory
-        # default path: /etc for HDP platforms
-
-        if not result.get('config-dir', None) and result.get('platform', None).startswith('HDP'):
-            result['config-dir'] = '/etc/'
-
-        # Cloudera specific parameters
-        if result['platform'] in CDH_PLATFORMS:
-            for param in CDH_MANDATORY_PARAMETERS:
-                if param not in result:
-                    raise MissingMandatoryParameter(param)
-
-        return result
-
-
-    def prepare_mapping(self, mapping):
-        ''' prepare mapping based on parameter from command line
-        '''
-        result = dict()
         if mapping:
-            try:
-                with open(mapping) as _mapping:
-                    result = json.load(_mapping)
-            except IOError, err:
-                raise IncorrectMappingFile(err)
-            except ValueError, err:
-                raise IncorrectMappingFile(err)
+            self.mapping = self.get_json_content(mapping)
         else:
             if self.settings['platform'] in CDH4X_PLATFORMS:
                 result = settings.MAPPING_CDH4X
             elif self.settings['platform'] in HDP2X_PLATFORMS:
                 result = settings.MAPPING_HDP2X
 
+        self.env = dict()
+
+    @staticmethod
+    def get_json_content(path):
+        ''' return JSON file content
+        '''
+        try:
+            with open(path) as _content:
+                result = json.load(_content)
+        except IOError, err:
+            raise IncorrectJsonFormat(err)
+        except ValueError, err:
+            raise IncorrectJsonFormat(err)
         return result
+
+
+    def prepare_settings(self, settings):
+        ''' prepare settings based on parameter from command line
+        '''
+        if not settings.get('platform', None):
+            raise EmptyPlatformName(settings.get('platform', None))
+
+        if settings['platform'] not in KNOWN_HADOOP_PLATFORMS:
+            raise UnknownPlatformName(settings['platform'])
+
+        # Hadoop config directory
+        # default path: /etc for HDP platforms
+
+        if not settings.get('config-dir', None) and settings.get('platform', None).startswith('HDP'):
+            settings['config-dir'] = '/etc/'
+
+        # Cloudera specific parameters
+        if settings['platform'] in CDH_PLATFORMS:
+            for param in CDH_MANDATORY_PARAMETERS:
+                if param not in settings:
+                    raise MissingMandatoryParameter(param)
+
+        return settings
 
 
     def parse(self):

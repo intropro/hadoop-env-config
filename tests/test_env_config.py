@@ -32,12 +32,12 @@ def test_env_config_undefined_settings():
 
 def test_env_config_empty_settings():
 
-    with pytest.raises(env_config.IncorrectSettingsFile):
+    with pytest.raises(env_config.IncorrectJsonFormat):
         conf = env_config.HadoopEnvConfig(os.path.join(get_settings_path(), 'empty.settings'))
 
 def test_env_config_incorrect_path_to_settings():
 
-    with pytest.raises(env_config.IncorrectSettingsFile):
+    with pytest.raises(env_config.IncorrectJsonFormat):
         conf = env_config.HadoopEnvConfig(os.path.join(get_settings_path(), 'shadow.settings'))
 
 
