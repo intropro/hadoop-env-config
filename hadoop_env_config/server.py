@@ -126,9 +126,9 @@ class ConfigHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             # self.send_header("Content-Type", "application/json")
             message = json.dumps({'data': _msg})
         elif self.path == '/conf/environment.json':
-            message = json.dumps(create_env_props(config_dir, ENV_CONFIG.mapping))
+            message = json.dumps(ENV_CONFIG.parse().items())
         elif self.path == '/conf/environment.properties':
-            message = '\n'.join("%s=%s" % (k,v) for k,v in create_env_props(config_dir, ENV_CONFIG.mapping).items())
+            message = '\n'.join("%s=%s" % (k,v) for k,v in ENV_CONFIG.parse().items())
             message += "\n"
         elif self.path.startswith('/conf/'):
             conf_file = os.path.basename(self.path)
